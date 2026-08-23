@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday Wish</title>
+    <style>
+      :root {
+        --bg1: #130c26;
+        --bg2: #45286d;
+        --bg3: #ff95d5;
+        --pink: #ff7ec7;
+        --gold: #ffd166;
+        --white: #fffafc;
+        --peach: #ffd7c2;
+        --purple: #bca7ff;
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #150b2d 0%, #2d1d49 24%, #4c2a74 52%, #ff93c9 100%);
+        color: var(--white);
+        overflow-x: hidden;
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        filter: blur(20px);
+        opacity: 0.5;
+        animation: drift 12s ease-in-out infinite alternate;
+        z-index: 0;
+      }
+
+      body::before {
+        background: rgba(255, 209, 102, 0.22);
+        top: 8%;
+        left: 7%;
+      }
+
+      body::after {
+        background: rgba(255, 126, 199, 0.18);
+        right: 10%;
+        bottom: 9%;
+        animation-delay: 2s;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+      }
+
+      section {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 60px 20px;
+      }
+
+      .card {
+        position: relative;
+        width: min(90vw, 760px);
+        padding: 52px 28px 42px;
+        border-radius: 30px;
+        background: rgba(35, 17, 52, 0.78);
+        border: 1px solid rgba(255,255,255,0.12);
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.28), 0 0 25px rgba(255, 209, 102, 0.15);
+        backdrop-filter: blur(8px);
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 14px;
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: auto 10% 12px 10%;
+        height: 70px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(255,255,255,0.25), transparent 70%);
+        filter: blur(10px);
+      }
+
+      .balloon {
+        position: absolute;
+        width: 22px;
+        height: 28px;
+        border-radius: 50% 50% 45% 45%;
+        background: linear-gradient(180deg, #ff9ae1, #ff52b1);
+        top: -20px;
+        animation: float 5s ease-in-out infinite;
+        box-shadow: 0 0 18px rgba(255, 126, 199, 0.5);
+      }
+
+      .balloon::after {
+        content: "";
+        position: absolute;
+        width: 2px;
+        height: 60px;
+        background: rgba(255,255,255,0.7);
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%);
+      }
+
+      .balloon:nth-child(1) { left: 12%; animation-delay: 0.5s; }
+      .balloon:nth-child(2) { left: 28%; animation-delay: 1.5s; }
+      .balloon:nth-child(3) { left: 68%; animation-delay: 0.8s; }
+      .balloon:nth-child(4) { left: 82%; animation-delay: 1.8s; }
+
+      .sparkle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: rgba(255,255,255,0.8);
+        clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+        animation: twinkle 2.8s ease-in-out infinite alternate;
+      }
+
+      .sparkle:nth-child(5) { top: 18%; left: 22%; }
+      .sparkle:nth-child(6) { top: 14%; right: 20%; animation-delay: 1.3s; }
+      .sparkle:nth-child(7) { bottom: 22%; left: 18%; animation-delay: 0.9s; }
+      .sparkle:nth-child(8) { bottom: 15%; right: 16%; animation-delay: 1.7s; }
+
+      .tagline {
+        position: relative;
+        margin-bottom: 20px;
+        font-size: 0.84rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.8);
+      }
+
+      h2 {
+        position: relative;
+        margin: 0 0 18px;
+        font-size: clamp(2.2rem, 5vw, 4.2rem);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        animation: fadeIn 1s ease-in;
+        text-shadow: 0 0 18px rgba(255, 209, 102, 0.6), 0 0 34px rgba(255, 145, 208, 0.3);
+      }
+      h3 {
+    position: relative;
+    margin: 0 0 18px;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    /* Gradient Text */
+    background: linear-gradient(
+        90deg,
+        #ff4ecd,
+        #ff8bdc,
+        #ffffff,
+        #ff4ecd
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Animation */
+    animation:
+        fadeSlide 1.2s ease-out,
+        gradientMove 3s linear infinite;
+
+    /* Glow */
+    filter: drop-shadow(0 0 8px rgba(255, 78, 205, 0.6))
+            drop-shadow(0 0 20px rgba(255, 78, 205, 0.4));
+}
+
+/* Fade + Slide */
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Moving Gradient */
+@keyframes gradientMove {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+      p {
+        position: relative;
+        margin: 12px auto;
+        max-width: 560px;
+        font-size: 1rem;
+        line-height: 1.9;
+        letter-spacing: 0.08em;
+        color: rgba(255,255,255,0.92);
+      }
+
+      .love {
+        position: relative;
+        margin-top: 24px;
+        font-size: clamp(2rem, 4vw, 2.8rem);
+        animation: pulse 1.4s infinite alternate;
+      }
+
+      .signature {
+        position: relative;
+        margin-top: 24px;
+        font-size: 1.05rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--peach);
+      }
+
+      .names {
+        position: relative;
+        margin-top: 18px;
+        font-size: 0.7rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.85);
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.78rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.8);
+        animation: bounce 1.6s infinite ease-in-out;
+      }
+
+      .memory {
+        max-width: 700px;
+        display: grid;
+        gap: 20px;
+      }
+
+      .memory-box {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
+        padding: 20px 24px;
+        text-align: left;
+      }
+
+      .memory-box h3 {
+        margin: 0 0 8px;
+        color: var(--gold);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+
+      .memory-box p {
+        margin: 0;
+        text-align: center;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-16px) scale(1.08); }
+      }
+
+      @keyframes pulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.2); }
+      }
+
+      @keyframes twinkle {
+        0% { transform: scale(0.7); opacity: 0.3; }
+        100% { transform: scale(1.3); opacity: 1; }
+      }
+
+      @keyframes drift {
+        0% { transform: translate(-10px, -8px) scale(1); }
+        100% { transform: translate(12px, 18px) scale(1.14); }
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+        50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <section>
+        <div class="card">
+          <div class="balloon"></div>
+          <div class="balloon"></div>
+          <div class="balloon"></div>
+          <div class="balloon"></div>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+
+          <div class="tagline">To My Best Friend</div>
+          <h2>Happy Birthday!</h2>
+          <h3>Varshini</h3>
+          <p>Varshini, you are the kind of person who makes life brighter just by being in it.</p>
+          <p>Thank you for every smile, every laugh, every honest conversation, and every beautiful memory we have shared together. You deserve all the happiness in the world.</p>
+          <p>May your year be filled with love, peace, adventure, and the kind of joy that stays with you forever.</p>
+          <div class="love">💖🎉</div>
+          <div class="signature">Forever</div>
+          <div class="names">Mounith</div>
+          
+        </div>
+      </section>
+
+      
+    </div>
+  </body>
+</html>
